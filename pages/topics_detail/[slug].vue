@@ -27,7 +27,7 @@
                 </div>
 
                 <!-- Wysiwyg contents -->
-                <v-row v-if="topicsDetail && topicsDetail.contents" class="p-article_content">
+                <!--<v-row v-if="topicsDetail && topicsDetail.contents" class="p-article_content">
                     <v-container fluid>
                         <v-card v-for="(subtitle, index) in topicsDetail.subtitles" :key="index" class="mx-auto" max-width="7000">
                             <v-card-title class="c-heading_h2">{{ subtitle }}</v-card-title>
@@ -36,7 +36,7 @@
                             </v-card-text>
                         </v-card>
                     </v-container>
-                </v-row>
+                </v-row>-->
 
                 <!-- extension contents -->
                 <v-row v-for="(item, idx) in items" :key="idx" class="p-article_content">

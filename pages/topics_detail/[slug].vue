@@ -67,16 +67,22 @@ const snackbar = useSnackbar();
 const localePath = useLocalePath();
 
 const items = computed(() => {
-    if (!topicsDetail.value) {
-        return [];
-    }
+    // if (!topicsDetail.value) {
+    //     return [];
+    // }
 
     const { texts, positionPatterns, imageUrls, subtitles } = topicsDetail.value;
+    //   return positionPatterns.map(({ key }, i) => ({
+    //   text: texts?.[i],
+    //    positionPatternKey: key,
+    //   imageUrl: imageUrls?.[i]?.url ? `${imageUrls?.[i]?.url}?width=800` : null,
+    //   subtitle: subtitles?.[i]
+    //}));
     return positionPatterns.map(({ key }, i) => ({
-        text: texts?.[i],
+        text: texts[i] || '',
         positionPatternKey: key,
         imageUrl: imageUrls?.[i]?.url ? `${imageUrls?.[i]?.url}?width=800` : null,
-        subtitle: subtitles?.[i]
+        subtitle: subtitles[i] || ''
     }));
 });
 
@@ -124,6 +130,8 @@ try {
         credentials: 'include',
         server: false
     });
+    console.log('API response:', response);
+    console.log('details:', response.details);
     const d = response.details;
     topicsDetail.value = {
         ...d,

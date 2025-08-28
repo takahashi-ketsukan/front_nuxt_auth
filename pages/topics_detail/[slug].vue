@@ -14,11 +14,11 @@
                                 <h1 class="mt-3 mb-3">
                                     {{ topicsDetail.subject }}
                                 </h1>
+                                <label>{{ topicsDetail.ext_1 }}</label>
+                                <div v-if="topicsDetail.file1Url">
+                                    <a :href="topicsDetail.file1Url" target="_blank" :download="topicsDetail.file1Url.split('/').pop()"> ファイルをダウンロード </a>
+                                </div>
                             </v-col>
-                            <label>{{ topicsDetail.ext_1 }}</label>
-                            <div v-if="topicsDetail.file1Url">
-                                <a :href="topicsDetail.file1Url" target="_blank" :download="topicsDetail.file1Url.split('/').pop()"> ファイルをダウンロード </a>
-                            </div>
                         </v-row>
                     </div>
                     <!-- For favorite -->
@@ -153,7 +153,7 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
-
+    console.log(topicsDetail);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',
         server: false,

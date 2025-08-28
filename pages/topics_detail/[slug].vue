@@ -15,8 +15,8 @@
                                     {{ topicsDetail.subject }}
                                 </h1>
                                 <label>{{ topicsDetail.ext_1 }}</label>
-                                <div v-if="topicsDetail.file1Url">
-                                    <a :href="topicsDetail.file1Url" target="_blank" :download="topicsDetail.file1Url.split('/').pop()"> ファイルをダウンロード </a>
+                                <div v-if="fileUrl" class="mb-4">
+                                    <a :href="file1Url" target="_blank" :download="file1Url.split('/').pop()" class="c-btn c-btn_dark"> ファイルをダウンロード </a>
                                 </div>
                             </v-col>
                         </v-row>

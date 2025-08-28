@@ -8,13 +8,17 @@
                     <div flat>
                         <v-row>
                             <v-col class="pt-0">
-                                <h1 class="mt-3 mb-3">
-                                    {{ topicsDetail.subject }}
-                                </h1>
                                 <span class="c-btn c-btn_main c-btn_sm c-btn_disable white--text">
                                     {{ topicsDetail.contents_type_nm }}
                                 </span>
+                                <h1 class="mt-3 mb-3">
+                                    {{ topicsDetail.subject }}
+                                </h1>
                             </v-col>
+                            <label>{{ topicsDetail.ext_1 }}</label>
+                            <div v-if="topicsDetail.file1Url">
+                                <a :href="topicsDetail.file1Url" target="_blank" :download="topicsDetail.file1Url.split('/').pop()"> ファイルをダウンロード </a>
+                            </div>
                         </v-row>
                     </div>
                     <!-- For favorite -->
@@ -136,10 +140,12 @@ try {
     topicsDetail.value = {
         ...d,
         fileType: d?.ext_1?.key,
-        fileUrl: d?.ext_2?.url,
-        fileDownload: d?.ext_2?.dl_link,
-        linkUrl: d?.ext_3?.url,
-        linkTitle: d?.ext_3?.title,
+        file1Url: d?.ext_2?.url,
+        file1Download: d?.ext_2?.dl_link,
+        file2Url: d?.ext_3?.url,
+        file2Download: d?.ext_3?.dl_link,
+        //   linkUrl: d?.ext_3?.url,
+        //  linkTitle: d?.ext_3?.title,
 
         // for TopicsDetail
         positionPatterns: d?.ext_4,

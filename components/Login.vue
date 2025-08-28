@@ -48,7 +48,7 @@
 const { t } = useI18n();
 const snackbar = useSnackbar();
 const { login } = useAuth();
-const sitekey = ref(apiDomain.sitekey);
+const sitekey = ref('ucdgovtest');
 const formData = reactive({
     email: '',
     password: ''

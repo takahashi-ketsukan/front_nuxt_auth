@@ -2,23 +2,6 @@
     <section class="p-login_content elevation-7">
         <v-row>
             <v-col class="pa-0 col-sm-6 col-12">
-                <div class="p-login_intro">
-                    <img src="~/assets/images/logo.png?width=150" class="p-login_logo" />
-                    <div class="p-login_intro-text">
-                        <h1 class="heading">
-                            <span v-html="$t('login.welcomeback')" />
-                        </h1>
-                        <p>{{ $t('login.message') }}</p>
-                        <p>
-                            {{ $t('login.demoaccount') }}<br />
-                            <strong>{{ $t('common.sitekey') }}：</strong>dev-nuxt-auth<br />
-                            <strong>{{ $t('common.id') }}：</strong>demo@kuroco-mail.app<br />
-                            <strong>{{ $t('common.password') }}：</strong>demo0512<br />
-                        </p>
-                    </div>
-                </div>
-            </v-col>
-            <v-col class="pa-0 col-sm-6 col-12">
                 <v-card outlined>
                     <div class="p-login_form">
                         <form @submit.prevent="handleLogin">

@@ -2,8 +2,8 @@
 const useUser = () => useState('user', () => null);
 
 export const apiDomain = reactive({
-    sitekey: 'ucdgovtest',
-    baseURL: 'https://ucdgovtest.a.kuroco.app'
+    sitekey: 'dev-nuxt-auth',
+    baseURL: 'https://dev-nuxt-auth.a.kuroco.app'
 });
 
 export function setSitekey(sitekey) {
@@ -15,7 +15,7 @@ export function setSitekey(sitekey) {
 export function updateApiDomainFromLocalStorage() {
     if (typeof window !== 'undefined' && localStorage.getItem('sitekey')) {
         apiDomain.sitekey = localStorage.getItem('sitekey');
-        apiDomain.baseURL = apiDomain.sitekey === 'ucdgovtest' ? 'https://ucdgovtest.a.kuroco.app' : `https://${apiDomain.sitekey}.g.kuroco.app`;
+        apiDomain.baseURL = apiDomain.sitekey === 'dev-nuxt-auth' ? 'https://dev-nuxt-auth.a.kuroco.app' : `https://${apiDomain.sitekey}.g.kuroco.app`;
     }
 }
 

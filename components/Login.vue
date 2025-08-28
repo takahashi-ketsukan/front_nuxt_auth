@@ -13,7 +13,7 @@
                                 </v-card-title>
                                 <v-card-text class="inner">
                                     <form @submit.prevent="handleLogin">
-                                        <v-text-field v-model="sitekey" :label="$t('login.site_key')" type="text" outlined />
+                                        <v-text-field v-model="sitekey" :label="ucdgovtest" type="text" disabled />
                                         <v-text-field v-model="formData.email" :label="$t('login.email')" type="email" outlined />
                                         <v-text-field
                                             v-model="formData.password"

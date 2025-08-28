@@ -18,12 +18,12 @@
                         </v-row>
                     </div>
                     <!-- For favorite -->
-                    <div class="text-right mt-2">
+                    <!-- <div class="text-right mt-2">
                         <div>{{ topicsDetail.inst_ymdhi.slice(0, 10) }}</div>
                         <v-btn icon variant="text" :color="favoriteColor" @click="onClickToggleFavorite">
                             <v-icon size="x-large" left> mdi-star </v-icon>
                         </v-btn>
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Wysiwyg contents -->
@@ -39,19 +39,19 @@
                 </v-row>-->
 
                 <!-- extension contents -->
-                <v-row v-for="(item, idx) in items" :key="idx" class="p-article_content">
+                <!-- <v-row v-for="(item, idx) in items" :key="idx" class="p-article_content">
                     <TopicsDetail v-if="item" v-bind="item" />
-                </v-row>
+                </v-row>-->
             </v-col>
             <v-col></v-col>
 
             <!-- </v-row> -->
-            <div class="text-center col mt-5">
+            <!-- <div class="text-center col mt-5">
                 <button type="submit" class="c-btn c-btn_dark c-btn_icon" @click="() => $router.push(localePath('/topics_list'))">
                     {{ $t('common.back_to_listing') }}
                     <v-icon class="icon pr-2"> mdi-undo-variant </v-icon>
                 </button>
-            </div>
+            </div> -->
         </template>
     </div>
 </template>

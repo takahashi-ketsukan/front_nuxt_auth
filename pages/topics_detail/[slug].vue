@@ -2,6 +2,32 @@
     <div>
         <v-progress-linear :active="loading" :indeterminate="loading" absolute top color="orange white-4" />
         <template v-if="topicsDetail">
+            <v-container class="pa-4" max-width="800">
+                <!-- タイトル -->
+                <v-row>
+                    <v-col>
+                        <span class="c-btn c-btn_main c-btn_sm c-btn_disable white--text">
+                            {{ topicsDetail.contents_type_nm }}
+                        </span>
+                        <h1 class="text-h4 font-weight-bold mb-1">{{ topicsDetail.subject }}</h1>
+                        <p class="text-caption grey--text mb-3">{{ topicsDetail.ymd ? formatDate(topicsDetail.ymd) : '' }}</p>
+                        <v-divider class="mb-4"></v-divider>
+                    </v-col>
+                </v-row>
+
+                <!-- 詳細内容 -->
+                <v-row>
+                    <v-col>
+                        <h2 class="text-h6 font-weight-medium mb-2">詳細内容：</h2>
+                        <v-card outlined class="pa-3">
+                            <div v-for="(text, index) in topicsDetail.ext_1" :key="index" class="mb-4">
+                                <p class="font-weight-medium mb-1">項目 {{ index + 1 }}：</p>
+                                <v-textarea :value="text" outlined dense readonly rows="3" />
+                            </div>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
             <!-- <v-row> -->
             <v-col>
                 <div class="d-flex justify-space-between mb-6" flat tile>
@@ -21,8 +47,8 @@
 
                                 <div v-if="topicsDetail.file1Download">
                                     <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ topicsDetail.file1Name }} </a>
-                                </div> </v-col
-                            >s
+                                </div>
+                            </v-col>
                         </v-row>
                     </div>
                     <h1>{{ file1Name }}</h1>

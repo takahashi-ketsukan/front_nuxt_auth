@@ -69,7 +69,7 @@ const handleLogin = async () => {
         console.log('3');
         const res = await login({ ...formData });
         console.log('4');
-        if (res.access_token) {
+        if (res?.access_token) {
             console.log('5');
             setToken(res.access_token); // Vuex / Composable に保存
             console.log('6');

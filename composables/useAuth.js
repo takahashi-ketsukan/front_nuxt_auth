@@ -46,7 +46,7 @@ export const useAuth = () => {
 
     /** login and set user's information */
     const login = async ({ email, password }) => {
-        await $fetch(`${apiDomain.baseURL}/rcms-api/1/login`, {
+        const res = await $fetch(`${apiDomain.baseURL}/rcms-api/1/login`, {
             method: 'POST',
             body: {
                 email,
@@ -57,6 +57,8 @@ export const useAuth = () => {
         });
         await profile();
         useRouter().push(localePath('/'));
+
+        return res;
     };
 
     /** logout and clear user's information */

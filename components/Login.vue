@@ -69,6 +69,8 @@ const handleLogin = async () => {
         console.log('3');
         const res = await login({ ...formData });
         console.log('4');
+        console.log(res);
+        console.log(await res.json().access_token);
         if (res?.access_token) {
             console.log('5');
             setToken(res.access_token); // Vuex / Composable に保存

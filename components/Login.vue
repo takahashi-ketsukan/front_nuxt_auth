@@ -67,12 +67,13 @@ const handleLogin = async () => {
         loading.value = true;
         setSitekey(sitekey.value);
         console.log('3');
+        const res = await login({ ...formData });
         console.log('4');
         if (res?.grant_token) {
             console.log('5');
-            setToken(res?.grant_token); // Vuex / Composable に保存
+            setToken(res.grant_token); // Vuex / Composable に保存
             console.log('6');
-            console.log('ログインレスポンス:', res?.grant_token);
+            console.log('ログインレスポンス:', res.grant_token);
         }
     } catch (e) {
         error.value = e?.data?.errors || [];

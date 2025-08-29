@@ -59,16 +59,20 @@ const error = ref(null);
 
 const loading = ref(false);
 const showsPassword = ref(false);
-
+console.log('1');
 const { setToken } = useToken();
+console.log('2');
 const handleLogin = async () => {
     try {
         loading.value = true;
         setSitekey(sitekey.value);
+        console.log('3');
         const res = await login({ ...formData });
+        console.log('4');
         if (res.access_token) {
+            console.log('5');
             setToken(res.access_token); // Vuex / Composable に保存
-
+            console.log('6');
             console.log('ログインレスポンス:', res.access_token);
         }
     } catch (e) {

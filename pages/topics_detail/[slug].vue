@@ -23,6 +23,10 @@
                             <div class="mb-4">
                                 <v-textarea :value="topicsDetail.ext_1" outlined dense readonly rows="3" />
                             </div>
+
+                            <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
+                                <a :href="file.dl_link" :download="file.dl_link.split('/').pop()" target="_blank" class="file-card">{{ file.fileName }}</a>
+                            </v-col>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -47,6 +51,8 @@
                                 <div v-if="topicsDetail.file1Download">
                                     <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ topicsDetail.file1Name }} </a>
                                 </div>
+
+                                <h4>添付ファイル：</h4>
                             </v-col>
                         </v-row>
                     </div>
@@ -94,6 +100,7 @@ const { authUser } = useAuth();
 const { t } = useI18n();
 const route = useRoute();
 const topicsDetail = ref(null);
+const files = ref(null);
 const loading = ref(true);
 const favoriteResponse = ref(null);
 const favoriteColor = ref('grey');
@@ -186,6 +193,34 @@ try {
         texts: d?.ext_7,
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
+    };
+
+    files.value = {
+        file1: {
+            url: d?.ext_2?.url,
+            fileDownload: d?.ext_2?.dl_link,
+            fileName: d?.ext_2?.desc
+        },
+        file2: {
+            url: d?.ext_3?.url,
+            fileDownload: d?.ext_3?.dl_link,
+            fileName: d?.ext_3?.desc
+        },
+        file3: {
+            url: d?.ext_4?.url,
+            fileDownload: d?.ext_4?.dl_link,
+            fileName: d?.ext_4?.desc
+        },
+        file4: {
+            url: d?.ext_5?.url,
+            fileDownload: d?.ext_5?.dl_link,
+            fileName: d?.ext_5?.desc
+        },
+        file5: {
+            url: d?.ext_6?.url,
+            fileDownload: d?.ext_6?.dl_link,
+            fileName: d?.ext_6?.desc
+        }
     };
     console.log(topicsDetail);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {

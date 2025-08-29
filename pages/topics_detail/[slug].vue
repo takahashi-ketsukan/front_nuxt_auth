@@ -125,12 +125,9 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
-    this.$store.commit('auth/loadAccessToken');
+    loadToken();
 
-    // Vuex から取得
-    const token = this.$store.getters['auth/getAccessToken'];
-    console.log(token);
-    console.log(token);
+    console.log(accessToken.value);
     files.value = {
         file1: {
             url: d?.ext_2?.url,

@@ -19,6 +19,23 @@ export function updateApiDomainFromLocalStorage() {
     }
 }
 
+export const useAuthToken = () => {
+    const accessToken = ref('');
+
+    const setToken = (token) => {
+        accessToken.value = token;
+        if (typeof window !== 'undefined') localStorage.setItem('accessToken', token);
+    };
+
+    const loadToken = () => {
+        if (typeof window !== 'undefined') {
+            accessToken.value = localStorage.getItem('accessToken') || '';
+        }
+    };
+
+    return { accessToken, setToken, loadToken };
+};
+
 export const useAuth = () => {
     const { t } = useI18n();
     const userRef = useUser();
@@ -56,9 +73,8 @@ export const useAuth = () => {
             credentials: 'include'
         });
         console.log('ログインレスポンス:', res);
-        if (res.access_token) {
-            this.$store.commit('auth/setAccessToken', res.access_token);
-        }
+        const { accessToken, setToken, loadToken } = useAuth();
+        setToken(res.access_token); // 保存
         await profile();
         useRouter().push(localePath('/'));
     };

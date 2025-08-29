@@ -14,12 +14,15 @@
                                 <h1 class="mt-3 mb-3">
                                     {{ topicsDetail.subject }}
                                 </h1>
-                                <label>{{ topicsDetail.ext_1 }}</label>
+                                <p class="ml-3 mb-3">{{ topicsDetail.ymd ? formatDate(topicsDetail.ymd) : '' }}</p>
+                                <hr />
+                                <h4>詳細内容：</h4>
+                                <label class="ml-5">{{ topicsDetail.ext_1 }}</label>
 
                                 <div v-if="topicsDetail.file1Download">
                                     <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ topicsDetail.file1Name }} </a>
-                                </div>
-                            </v-col>
+                                </div> </v-col
+                            >s
                         </v-row>
                     </div>
                     <h1>{{ file1Name }}</h1>
@@ -91,6 +94,11 @@ const items = computed(() => {
         subtitle: subtitles[i] || ''
     }));
 });
+
+const formatDate = (str) => {
+    const [year, month, day] = str.slice(0, 10).split('-');
+    return `${year}年${month}月${day}日`;
+};
 
 const onClickToggleFavorite = async () => {
     try {

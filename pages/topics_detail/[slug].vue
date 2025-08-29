@@ -25,7 +25,7 @@
                             </div>
 
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <a :href="file.dl_link" :download="file.dl_link.split('/').pop()" target="_blank" class="file-card">{{ file.fileName }}</a>
+                                <a v-if="file.dl_link" :href="file.dl_link" :download="file.dl_link" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>

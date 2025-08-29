@@ -145,8 +145,6 @@ try {
         file1Download: d?.ext_2?.dl_link,
         file2Url: d?.ext_3?.url,
         file2Download: d?.ext_3?.dl_link,
-        //   linkUrl: d?.ext_3?.url,
-        //  linkTitle: d?.ext_3?.title,
 
         // for TopicsDetail
         positionPatterns: d?.ext_4,
@@ -156,6 +154,7 @@ try {
     };
     const file1Name = computed(() => (file1Url.value ? decodeURIComponent(file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
+    console.log(file1Name);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',
         server: false,

@@ -17,11 +17,12 @@
                                 <label>{{ topicsDetail.ext_1 }}</label>
 
                                 <div v-if="topicsDetail.file1Download">
-                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">aasas </a>
+                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ file1Url.split('/').pop() }} </a>
                                 </div>
                             </v-col>
                         </v-row>
                     </div>
+                    <h1>{{ file1Name }}</h1>
                     <!-- For favorite -->
                     <!-- <div class="text-right mt-2">
                         <div>{{ topicsDetail.inst_ymdhi.slice(0, 10) }}</div>
@@ -154,9 +155,9 @@ try {
     };
     const file1Name = computed(() => (topicsDetail.value.file1Url.value ? decodeURIComponent(topicsDetail.value.file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
-    watch(file1Name, (newVal) => {
-        console.log('✅ fileName:', newVal);
-    });
+
+    console.log('✅ fileName:', file1Url.value.split('/').pop());
+
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',
         server: false,

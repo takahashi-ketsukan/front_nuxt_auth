@@ -57,7 +57,7 @@ export const useAuth = () => {
         });
         console.log('ログインレスポンス:', res);
         if (res.access_token) {
-            localStorage.setItem('accessToken', res.access_token);
+            this.$store.commit('auth/setAccessToken', res.access_token);
         }
         await profile();
         useRouter().push(localePath('/'));

@@ -73,7 +73,7 @@ export const useAuth = () => {
             credentials: 'include'
         });
         console.log('ログインレスポンス:', res);
-        const { accessToken, setToken, loadToken } = useAuth();
+        const { accessToken, setToken, loadToken } = useAuthToken();
         setToken(res.access_token); // 保存
         await profile();
         useRouter().push(localePath('/'));

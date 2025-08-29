@@ -70,12 +70,13 @@ const handleLogin = async () => {
         const res = await login({ ...formData });
         console.log('4');
         console.log(res);
-        console.log(await res.json().access_token);
-        if (res?.access_token) {
+        const resjson = await res.json();
+        console.log(resjson);
+        if (resjson?.access_token) {
             console.log('5');
-            setToken(res.access_token); // Vuex / Composable に保存
+            setToken(resjson.access_token); // Vuex / Composable に保存
             console.log('6');
-            console.log('ログインレスポンス:', res.access_token);
+            console.log('ログインレスポンス:', resjson.access_token);
         }
     } catch (e) {
         error.value = e?.data?.errors || [];

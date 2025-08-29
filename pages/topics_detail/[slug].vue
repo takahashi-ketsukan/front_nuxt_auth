@@ -16,7 +16,9 @@
                                 </h1>
                                 <label>{{ topicsDetail.ext_1 }}</label>
 
-                                <a :href="file1Url" target="_blank" :download="file1Url.split('/').pop()" class="c-btn c-btn_dark"> ファイルをダウンロード </a>
+                                <div v-if="topicsDetail.file1Download">
+                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()"> {{ file1Name }} </a>
+                                </div>
                             </v-col>
                         </v-row>
                     </div>
@@ -152,6 +154,7 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
+    const file1Name = computed(() => (file1Url.value ? decodeURIComponent(file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',

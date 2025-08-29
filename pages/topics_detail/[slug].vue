@@ -17,7 +17,7 @@
                                 <label>{{ topicsDetail.ext_1 }}</label>
 
                                 <div v-if="topicsDetail.file1Download">
-                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()"> {{ file1Name }} </a>
+                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()"> {{ file1Name.value }} </a>
                                 </div>
                             </v-col>
                         </v-row>
@@ -154,7 +154,7 @@ try {
     };
     const file1Name = computed(() => (file1Url.value ? decodeURIComponent(file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
-    console.log(file1Name);
+    console.log(file1Name.value);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',
         server: false,

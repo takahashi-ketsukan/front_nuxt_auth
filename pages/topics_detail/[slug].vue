@@ -36,6 +36,7 @@
     </div>
 </template>
 <script setup>
+import { useToken } from '@/composables/useToken';
 const { authUser } = useAuth();
 const { t } = useI18n();
 const route = useRoute();
@@ -46,6 +47,7 @@ const favoriteResponse = ref(null);
 const favoriteColor = ref('grey');
 const snackbar = useSnackbar();
 const localePath = useLocalePath();
+const { accessToken, loadToken } = useToken();
 
 const items = computed(() => {
     const { texts, positionPatterns, imageUrls, subtitles } = topicsDetail.value;
@@ -126,10 +128,9 @@ try {
         subtitles: d?.ext_9
     };
 
-    const { accessToken, setToken, loadToken } = useAuthToken();
     loadToken();
 
-    console.log(accessToken.value);
+    console.log('accessToken:', accessToken.value);
     files.value = {
         file1: {
             url: d?.ext_2?.url,

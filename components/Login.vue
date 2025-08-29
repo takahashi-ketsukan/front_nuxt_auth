@@ -45,6 +45,8 @@
     </section>
 </template>
 <script setup>
+import { useToken } from '@/composables/useToken';
+
 const { t } = useI18n();
 const snackbar = useSnackbar();
 const { login } = useAuth();
@@ -58,11 +60,17 @@ const error = ref(null);
 const loading = ref(false);
 const showsPassword = ref(false);
 
+const { setToken } = useToken();
 const handleLogin = async () => {
     try {
         loading.value = true;
         setSitekey(sitekey.value);
-        await login({ ...formData });
+        const res = await login({ ...formData });
+        if (res.access_token) {
+            setToken(res.access_token); // Vuex / Composable に保存
+
+            console.log('ログインレスポンス:', res.access_token);
+        }
     } catch (e) {
         error.value = e?.data?.errors || [];
         snackbar.add({

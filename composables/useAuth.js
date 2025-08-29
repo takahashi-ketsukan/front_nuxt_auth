@@ -19,23 +19,6 @@ export function updateApiDomainFromLocalStorage() {
     }
 }
 
-export const useAuthToken = () => {
-    const accessToken = ref('');
-
-    const setToken = (token) => {
-        accessToken.value = token;
-        if (typeof window !== 'undefined') localStorage.setItem('accessToken', token);
-    };
-
-    const loadToken = () => {
-        if (typeof window !== 'undefined') {
-            accessToken.value = localStorage.getItem('accessToken') || '';
-        }
-    };
-
-    return { accessToken, setToken, loadToken };
-};
-
 export const useAuth = () => {
     const { t } = useI18n();
     const userRef = useUser();
@@ -63,7 +46,7 @@ export const useAuth = () => {
 
     /** login and set user's information */
     const login = async ({ email, password }) => {
-        const res = await $fetch(`${apiDomain.baseURL}/rcms-api/1/login`, {
+        await $fetch(`${apiDomain.baseURL}/rcms-api/1/login`, {
             method: 'POST',
             body: {
                 email,
@@ -72,9 +55,6 @@ export const useAuth = () => {
             server: false,
             credentials: 'include'
         });
-        console.log('ログインレスポンス:', res);
-        const { accessToken, setToken, loadToken } = useAuthToken();
-        setToken(res.access_token); // 保存
         await profile();
         useRouter().push(localePath('/'));
     };

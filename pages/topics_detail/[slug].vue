@@ -153,10 +153,10 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
-    const file1Name = computed(() => (topicsDetail.value.file1Url.value ? decodeURIComponent(topicsDetail.value.file1Url.value.split('/').pop()) : ''));
+    // const file1Name = computed(() => (topicsDetail.value.file1Url.value ? decodeURIComponent(topicsDetail.value.file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
 
-    console.log('✅ fileName:', file1Url.value.split('/').pop());
+    console.log('✅ fileName:', topicsDetail.value.file1Url.value.split('/').pop());
 
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',

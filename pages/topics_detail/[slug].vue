@@ -152,7 +152,7 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
-    const file1Name = computed(() => (file1Url.value ? decodeURIComponent(file1Url.value.split('/').pop()) : ''));
+    const file1Name = computed(() => (topicsDetail.value.file1Url.value ? decodeURIComponent(topicsDetail.value.file1Url.value.split('/').pop()) : ''));
     console.log(topicsDetail);
     watch(file1Name, (newVal) => {
         console.log('✅ fileName:', newVal);

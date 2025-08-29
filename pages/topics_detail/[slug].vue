@@ -24,8 +24,9 @@
                                 <v-textarea :value="topicsDetail.ext_1" outlined dense readonly rows="3" />
                             </div>
 
+                            <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <a v-if="file.dl_link" :href="file.dl_link" :download="file.dl_link" target="_blank" class="file-card">{{ file.fileName }}</a>
+                                <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.fileDownload" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>
@@ -222,6 +223,8 @@ try {
             fileName: d?.ext_6?.desc
         }
     };
+
+    console.log(files);
     console.log(topicsDetail);
     const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
         credentials: 'include',

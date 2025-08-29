@@ -125,6 +125,8 @@ try {
         imageUrls: d?.ext_5,
         subtitles: d?.ext_9
     };
+
+    const { accessToken, setToken, loadToken } = useAuthToken();
     loadToken();
 
     console.log(accessToken.value);

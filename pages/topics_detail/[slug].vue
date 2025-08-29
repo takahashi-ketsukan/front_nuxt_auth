@@ -18,11 +18,10 @@
                 <!-- 詳細内容 -->
                 <v-row>
                     <v-col>
-                        <h2 class="text-h6 font-weight-medium mb-2">詳細内容：</h2>
                         <v-card outlined class="pa-3">
-                            <div v-for="(text, index) in topicsDetail.ext_1" :key="index" class="mb-4">
-                                <p class="font-weight-medium mb-1">項目 {{ index + 1 }}：</p>
-                                <v-textarea :value="text" outlined dense readonly rows="3" />
+                            <h2 class="text-h6 font-weight-medium mb-2">詳細内容：</h2>
+                            <div class="mb-4">
+                                <v-textarea :value="topicsDetail.ext_1" outlined dense readonly rows="3" />
                             </div>
                         </v-card>
                     </v-col>

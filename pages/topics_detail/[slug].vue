@@ -17,7 +17,7 @@
                                 <label>{{ topicsDetail.ext_1 }}</label>
 
                                 <div v-if="topicsDetail.file1Download">
-                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ topicsDetail.desc }} </a>
+                                    <a :href="topicsDetail.file1Download" :download="topicsDetail.file1Download.split('/').pop()">{{ topicsDetail.file1Name }} </a>
                                 </div>
                             </v-col>
                         </v-row>

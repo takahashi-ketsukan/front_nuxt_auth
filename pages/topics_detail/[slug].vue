@@ -77,7 +77,8 @@ const downloadFile = async (url, name) => {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${accessToken.value}`
-            }
+            },
+            credentials: 'include'
         });
         console.log('res:', res);
         if (!res.ok) throw new Error('ダウンロード失敗');

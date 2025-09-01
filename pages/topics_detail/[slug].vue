@@ -74,11 +74,12 @@ const formatDate = (str) => {
 const downloadFile = async (url, name) => {
     try {
         const res = await fetch(url, {
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${accessToken.value}`
             }
         });
-
+        console.log('res:', res);
         if (!res.ok) throw new Error('ダウンロード失敗');
 
         const blob = await res.blob();

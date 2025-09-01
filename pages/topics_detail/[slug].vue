@@ -26,6 +26,9 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
+                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFile(file.fileDownload, file.fileName)">
+                                    {{ file.fileName }}
+                                </v-btn>
                                 <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.fileDownload" target="_blank" class="file-card">・{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
@@ -49,6 +52,9 @@ const snackbar = useSnackbar();
 const localePath = useLocalePath();
 const { accessToken, loadToken } = useToken();
 
+loadToken();
+console.log('accessToken:', accessToken.value);
+
 const items = computed(() => {
     const { texts, positionPatterns, imageUrls, subtitles } = topicsDetail.value;
 
@@ -63,6 +69,31 @@ const items = computed(() => {
 const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
+};
+
+const downloadFile = async (url, name) => {
+    try {
+        const res = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken.value}`
+            }
+        });
+
+        if (!res.ok) throw new Error('ダウンロード失敗');
+
+        const blob = await res.blob();
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = name || 'download';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    } catch (err) {
+        console.error(err);
+        snackbar.add({
+            type: 'error',
+            text: 'ファイルをダウンロードできませんでした'
+        });
+    }
 };
 
 const onClickToggleFavorite = async () => {
@@ -128,9 +159,6 @@ try {
         subtitles: d?.ext_9
     };
 
-    loadToken();
-
-    console.log('accessToken:', accessToken.value);
     files.value = {
         file1: {
             url: d?.ext_2?.url,

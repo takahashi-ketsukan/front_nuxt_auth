@@ -29,7 +29,7 @@
                                 <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.url, file.fileName)">
                                     {{ file.fileName }}
                                 </v-btn>
-                                <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.fileDownload" target="_blank" class="file-card">・{{ file.fileName }}</a>
+                                <a v-if="file.url" :href="file.url" :download="file.url" target="_blank" class="file-card">・{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>

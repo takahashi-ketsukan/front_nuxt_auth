@@ -72,6 +72,7 @@ const formatDate = (str) => {
 };
 
 const downloadFile = async (url, name) => {
+    console.log('url:', url);
     try {
         const res = await fetch(url, {
             method: 'GET',

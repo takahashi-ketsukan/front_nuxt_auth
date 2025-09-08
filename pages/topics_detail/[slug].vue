@@ -29,7 +29,7 @@
                                 <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.url, file.fileName)">
                                     {{ file.fileName }}
                                 </v-btn>
-                                <a v-if="file.url" :href="file.url" :download="getfilename(file.url)" target="_blank" class="file-card">・{{ file.fileName }}</a>
+                                <a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">・{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>
@@ -148,27 +148,32 @@ try {
         file1: {
             url: d?.ext_2?.url,
             fileDownload: d?.ext_2?.dl_link,
-            fileName: d?.ext_2?.desc
+            fileName: d?.ext_2?.desc,
+            dlName:getfilename(d?.ext_2?.url)
         },
         file2: {
             url: d?.ext_3?.url,
             fileDownload: d?.ext_3?.dl_link,
-            fileName: d?.ext_3?.desc
+            fileName: d?.ext_3?.desc,
+            dlName:getfilename(d?.ext_3?.url)
         },
         file3: {
             url: d?.ext_4?.url,
             fileDownload: d?.ext_4?.dl_link,
-            fileName: d?.ext_4?.desc
+            fileName: d?.ext_4?.desc,
+            dlName:getfilename(d?.ext_4?.url)
         },
         file4: {
             url: d?.ext_5?.url,
             fileDownload: d?.ext_5?.dl_link,
-            fileName: d?.ext_5?.desc
+            fileName: d?.ext_5?.desc,
+            dlName:getfilename(d?.ext_5?.url)
         },
         file5: {
             url: d?.ext_6?.url,
             fileDownload: d?.ext_6?.dl_link,
-            fileName: d?.ext_6?.desc
+            fileName: d?.ext_6?.desc,
+            dlName:getfilename(d?.ext_6?.url)
         }
     };
 

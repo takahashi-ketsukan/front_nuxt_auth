@@ -162,3 +162,38 @@ export const useNavDrawerItems = () => {
     ];
     return items;
 };
+
+export const useKurocoContent = () => {
+    const content = ref(null);
+    const error = ref(null);
+    const loading = ref(false);
+
+    const downloadFile = async (fileUrl, filename, token) => {
+        try {
+            const res = await fetch(fileUrl, {
+                headers: {
+                    'x-rcms-api-access-token': token,
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log('res:', res);
+            if (!res.ok) throw new Error('Download failed');
+
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error(err);
+            alert('ファイルのダウンロードに失敗しました');
+        }
+    };
+
+    return { content, error, loading, downloadFile };
+};

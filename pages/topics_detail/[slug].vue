@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFile(file.fileDownload, file.fileName)">
+                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.fileDownload, file.fileName)">
                                     {{ file.fileName }}
                                 </v-btn>
                                 <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.fileDownload" target="_blank" class="file-card">・{{ file.fileName }}</a>
@@ -41,6 +41,7 @@
 <script setup>
 import { useToken } from '@/composables/useToken';
 const { authUser } = useAuth();
+const { downloadFile } = useKurocoContent();
 const { t } = useI18n();
 const route = useRoute();
 const topicsDetail = ref(null);
@@ -71,27 +72,9 @@ const formatDate = (str) => {
     return `${year}年${month}月${day}日`;
 };
 
-const downloadFile = async (url, name) => {
+const downloadFiles = async (url, name) => {
     console.log('url:', url);
-    try {
-        // 直接 Kuroco を叩かず、自分の API に渡す
-        const res = await fetch(`/api/download?url=${encodeURIComponent(url)}`);
-        console.log('res:', res);
-        if (!res.ok) throw new Error('ダウンロード失敗');
-
-        const blob = await res.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = name || 'download';
-        link.click();
-        URL.revokeObjectURL(link.href);
-    } catch (err) {
-        console.error(err);
-        snackbar.add({
-            type: 'error',
-            text: 'ファイルをダウンロードできませんでした'
-        });
-    }
+    downloadFile(url, name, accessToken.value);
 };
 
 const onClickToggleFavorite = async () => {

@@ -74,13 +74,8 @@ const formatDate = (str) => {
 const downloadFile = async (url, name) => {
     console.log('url:', url);
     try {
-        const res = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${accessToken.value}`
-            },
-            credentials: 'include'
-        });
+        // 直接 Kuroco を叩かず、自分の API に渡す
+        const res = await fetch(`/api/download?url=${encodeURIComponent(url)}`);
         console.log('res:', res);
         if (!res.ok) throw new Error('ダウンロード失敗');
 

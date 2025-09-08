@@ -29,7 +29,7 @@
                                 <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.url, file.fileName)">
                                     {{ file.fileName }}
                                 </v-btn>
-                                <a v-if="file.url" :href="file.url" :download="file.fileName" target="_blank" class="file-card">・{{ file.fileName }}</a>
+                                <a v-if="file.url" :href="file.url" :download="getfilename(file.url)" target="_blank" class="file-card">・{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>
@@ -71,7 +71,11 @@ const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
 };
-
+const getfilename = (url) =>{
+    const pathname = new URL(url).pathname;
+    const filename = pathname.substring(pathname.lastIndexOf("/") + 1);]
+    return filename
+}
 const downloadFiles = async (url, name) => {
     console.log('url:', url);
     downloadFile(url, name, accessToken.value);

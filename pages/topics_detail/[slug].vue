@@ -71,11 +71,11 @@ const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
 };
-const getfilename = (url) =>{
+const getfilename = (url) => {
     const pathname = new URL(url).pathname;
-    const filename = pathname.substring(pathname.lastIndexOf("/") + 1);]
-    return filename
-}
+    const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
+    return filename;
+};
 const downloadFiles = async (url, name) => {
     console.log('url:', url);
     downloadFile(url, name, accessToken.value);
@@ -149,31 +149,31 @@ try {
             url: d?.ext_2?.url,
             fileDownload: d?.ext_2?.dl_link,
             fileName: d?.ext_2?.desc,
-            dlName:getfilename(d?.ext_2?.url)
+            dlName: getfilename(d?.ext_2?.url)
         },
         file2: {
             url: d?.ext_3?.url,
             fileDownload: d?.ext_3?.dl_link,
             fileName: d?.ext_3?.desc,
-            dlName:getfilename(d?.ext_3?.url)
+            dlName: getfilename(d?.ext_3?.url)
         },
         file3: {
             url: d?.ext_4?.url,
             fileDownload: d?.ext_4?.dl_link,
             fileName: d?.ext_4?.desc,
-            dlName:getfilename(d?.ext_4?.url)
+            dlName: getfilename(d?.ext_4?.url)
         },
         file4: {
             url: d?.ext_5?.url,
             fileDownload: d?.ext_5?.dl_link,
             fileName: d?.ext_5?.desc,
-            dlName:getfilename(d?.ext_5?.url)
+            dlName: getfilename(d?.ext_5?.url)
         },
         file5: {
             url: d?.ext_6?.url,
             fileDownload: d?.ext_6?.dl_link,
             fileName: d?.ext_6?.desc,
-            dlName:getfilename(d?.ext_6?.url)
+            dlName: getfilename(d?.ext_6?.url)
         }
     };
 

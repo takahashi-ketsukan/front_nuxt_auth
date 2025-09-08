@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.fileDownload, file.fileName)">
+                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(file.url, file.fileName)">
                                     {{ file.fileName }}
                                 </v-btn>
                                 <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.fileDownload" target="_blank" class="file-card">・{{ file.fileName }}</a>

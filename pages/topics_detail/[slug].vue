@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                ・ <a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">・{{ file.fileName }}</a>
+                                ・ <a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>

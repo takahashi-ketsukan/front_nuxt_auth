@@ -2,10 +2,6 @@
     <ClientOnly>
         <Login v-if="!authUser.member_id" />
         <div v-else class="mypage">
-            <v-carousel v-model="active" class="p-dashboard_banner">
-                <v-carousel-item v-for="(url, i) in sliderImages" :key="i" :src="`${url}?height=500px`" reverse-transition="fade-transition" transition="fade-transition" />
-            </v-carousel>
-
             <h1 class="text-left mt-5 pt-4">
                 {{ $t('top.latest_articles') }}
             </h1>

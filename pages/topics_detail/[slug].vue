@@ -77,12 +77,13 @@ const getfilename = (url) => {
     return filename;
 };
 const downloadFiles = async (url, name) => {
-    const path = url.replace('https://ucdgovtest.g.kuroco-img.app/', '');
-    const apiUrl = `/api/download/${path}`;
-    console.log('apiUrl:', apiUrl);
+    //const path = url.replace('https://ucdgovtest.g.kuroco-img.app/', '');
+    //const apiUrl = `/api/download/${path}`;
+    //console.log('apiUrl:', apiUrl);
 
     const link = document.createElement('a');
-    link.href = apiUrl;
+    //link.href = apiUrl;
+    link.href = url;
     link.download = name; // ファイル名はサーバーが付与
     document.body.appendChild(link);
     link.click();

@@ -71,7 +71,7 @@ const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
 };
-const getfilename = (url?: string) => {
+const getfilename = (url) => {
     const pathname = new URL(url).pathname;
     const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
     return filename;

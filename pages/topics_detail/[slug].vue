@@ -29,7 +29,7 @@
                                 <v-btn v-if="file.url" color="primary" @click="downloadFiles(file.url, file.dlName)">
                                     {{ file.fileName }}
                                 </v-btn>
-                                <a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">・{{ file.fileName }}</a>
+                                <!--<a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">・{{ file.fileName }}</a>-->
                             </v-col>
                         </v-card>
                     </v-col>
@@ -71,7 +71,7 @@ const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
 };
-const getfilename = (url) => {
+const getfilename = (url?: string) => {
     const pathname = new URL(url).pathname;
     const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
     return filename;
@@ -83,50 +83,11 @@ const downloadFiles = async (url, name) => {
 
     const link = document.createElement('a');
     link.href = apiUrl;
-    a.rel = 'noopener'; // 念のため
-    link.download = name; // ファイル名はサーバーが付与
+    link.rel = 'noopener'; // 念のため
+    link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-};
-
-const onClickToggleFavorite = async () => {
-    try {
-        const request =
-            favoriteColor.value === 'grey'
-                ? await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/register`, {
-                      method: 'POST',
-                      credentials: 'include',
-                      server: false,
-                      headers: {
-                          'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify({
-                          module_id: parseInt(route.params.slug),
-                          module_type: 'topics'
-                      })
-                  })
-                : await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/delete`, {
-                      method: 'POST',
-                      credentials: 'include',
-                      server: false,
-                      headers: {
-                          'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify({
-                          module_id: parseInt(route.params.slug),
-                          module_type: 'topics'
-                      })
-                  });
-
-        await request;
-        favoriteColor.value = favoriteColor.value === 'grey' ? 'red' : 'grey';
-    } catch (error) {
-        snackbar.add({
-            type: 'error',
-            text: error?.response?._data?.errors?.[0]?.message || t('common.error')
-        });
-    }
 };
 
 try {

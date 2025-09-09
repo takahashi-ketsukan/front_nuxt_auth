@@ -1,7 +1,12 @@
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 export default defineNuxtConfig({
     ssr: true,
-    nitro: { preset: 'vercel' },
+    nitro: {
+        output: {
+            publicDir: './.output/public'
+        },
+        preset: 'vercel'
+    },
     runtimeConfig: {
         public: {
             kurocoApiDomain: 'https://ucdgovtest.g.kuroco.app'

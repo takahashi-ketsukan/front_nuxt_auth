@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.url" color="primary" @click="downloadFiles(file.url, file.dlName)">
+                                <v-btn v-if="file.url" color="primary" @click="downloadFiles(file.fileDownload, file.dlName)">
                                     {{ file.fileName }}
                                 </v-btn>
                                 <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.dlName" target="_blank" class="file-card">・{{ file.fileName }}</a>
@@ -77,17 +77,13 @@ const getfilename = (url) => {
     return filename;
 };
 const downloadFiles = async (url, name) => {
-    const path = url.replace('https://ucdgovtest.g.kuroco-img.app/', '');
-    const apiUrl = `/api/download/${path}`;
+    const path = url.replace('https://ucdgovtest.g.kuroco.app/direct/topics/topics_file_download/', '');
+    const apiUrl = `/api/download${path}`;
     console.log('apiUrl:', apiUrl);
-
-    const link = document.createElement('a');
-    link.href = apiUrl;
-    link.rel = 'noopener'; // 念のため
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    await fetch(apiUrl, {
+        method: 'GET',
+        credentials: 'include' // ← これが超重要（同一オリジンCookie送出）
+    });
 };
 
 try {

@@ -2,7 +2,7 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 export default defineNuxtConfig({
     runtimeConfig: {
         public: {
-            kurocoApiDomain: 'https://dev-nuxt-auth.a.kuroco.app'
+            kurocoApiDomain: 'https://ucdgovtest.a.kuroco.app'
         }
     },
 
@@ -28,9 +28,7 @@ export default defineNuxtConfig({
                 },
                 { name: 'robots', content: 'index' }
             ],
-            link: [
-                { rel: 'icon', type: 'image/svg+xml', href: '/icon_kuroco.svg' },
-            ]
+            link: [{ rel: 'icon', type: 'image/svg+xml', href: '/icon_kuroco.svg' }]
         }
     },
 

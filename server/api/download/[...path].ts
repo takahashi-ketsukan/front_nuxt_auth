@@ -4,22 +4,25 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, statusMessage: 'Invalid path' });
     }
 
-    // kuroco-img の URL を組み立て
+    // KurocoファイルURLを構築
     const fileUrl = `https://ucdgovtest.g.kuroco-img.app/${path}`;
 
-    const res = await fetch(fileUrl);
+    // ファイル取得（リダイレクト対応）
+    const res = await fetch(fileUrl, { redirect: 'follow' });
+    console.log('...path~res', res);
     if (!res.ok) {
-        throw createError({ statusCode: res.status, statusMessage: 'File not found' });
+        throw createError({ statusCode: res.status, statusMessage: 'File fetch failed' });
     }
 
     const buffer = Buffer.from(await res.arrayBuffer());
 
-    // パスの末尾からファイル名を取り出す
+    // ファイル名
     const fileName = path.split('/').pop() || 'download.bin';
 
-    // ヘッダーでダウンロード強制
+    // ヘッダー設定（必ずダウンロード）
     setHeader(event, 'Content-Type', res.headers.get('content-type') || 'application/octet-stream');
     setHeader(event, 'Content-Disposition', `attachment; filename="${fileName}"`);
 
-    return buffer;
+    // Bufferを直接レスポンスに書き込む
+    event.node.res.end(buffer);
 });

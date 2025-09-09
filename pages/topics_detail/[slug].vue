@@ -83,6 +83,7 @@ const downloadFiles = async (url, name) => {
 
     const link = document.createElement('a');
     link.href = apiUrl;
+    a.rel = 'noopener'; // 念のため
     link.download = name; // ファイル名はサーバーが付与
     document.body.appendChild(link);
     link.click();

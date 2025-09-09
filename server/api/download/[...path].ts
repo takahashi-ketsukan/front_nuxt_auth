@@ -1,5 +1,6 @@
 export default defineEventHandler(async (event) => {
     const path = event.context.params?.path;
+    console.log('...path', path);
     if (!path) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid path' });
     }

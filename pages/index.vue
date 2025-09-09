@@ -19,14 +19,14 @@
                 {{ $t('top.starred') }}
             </h1>
 
-            <TopicsList :topics="favouriteList" />
+            <!--<TopicsList :topics="favouriteList" />
 
             <div class="text-center py-5 text-white">
                 <a type="submit" block x-large color="success" class="c-btn c-btn_main c-btn_md c-btn_icon" @click="() => $router.push(localePath('/favourite/'))">
                     {{ $t('top.more_starred') }}
                     <v-icon dark right class="icon"> mdi-arrow-right-drop-circle </v-icon>
                 </a>
-            </div>
+            </div>-->
         </div>
     </ClientOnly>
 </template>

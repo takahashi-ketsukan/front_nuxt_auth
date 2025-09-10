@@ -1,0 +1,48 @@
+import { u as useRouter$1, g as useLocalePath, e as useI18n, _ as __nuxt_component_0$1 } from './server.mjs';
+import { useSnackbar } from 'vue3-snackbar';
+import { ref, computed, useSSRContext } from 'vue';
+import { ssrRenderComponent } from 'vue/server-renderer';
+import '../runtime.mjs';
+import 'node:http';
+import 'node:https';
+import 'fs';
+import 'path';
+import 'unhead';
+import '@unhead/shared';
+import 'vue-router';
+import '@formkit/core';
+import '@formkit/utils';
+import '@formkit/observer';
+import '@formkit/rules';
+import '@formkit/validation';
+import '@formkit/i18n';
+import '@formkit/inputs';
+import '@formkit/themes';
+import '@formkit/dev';
+
+const _sfc_main = {
+  __name: "index",
+  __ssrInlineRender: true,
+  setup(__props) {
+    useRouter$1();
+    useSnackbar();
+    const profile = ref({});
+    ref(false);
+    useLocalePath();
+    useI18n();
+    computed(() => Object.keys(profile.value).length > 0);
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_ClientOnly = __nuxt_component_0$1;
+      _push(ssrRenderComponent(_component_ClientOnly, _attrs, {}, _parent));
+    };
+  }
+};
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/profile/edit/index.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+
+export { _sfc_main as default };
+//# sourceMappingURL=index-D0BxJQVj.mjs.map

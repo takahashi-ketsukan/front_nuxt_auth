@@ -60,39 +60,39 @@ const updateTopics = async () => {
     }
 };
 
-const updateFavourite = async () => {
-    try {
-        favouriteList.value = [];
-        const favouriteRes = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
-            credentials: 'include',
-            server: false,
-            params: {
-                member_id: parseInt(authUser.value.member_id),
-                module_type: 'topics'
-            }
-        });
-
-        const topicsIds = favouriteRes.list.map((item) => item.module_id);
-        if (topicsIds.length === 0) {
-            return;
-        }
-
-        const favouriteTopicsRes = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/list`, {
-            credentials: 'include',
-            server: false,
-            params: {
-                cnt: perPage.value,
-                ['id[]']: topicsIds
-            }
-        });
-        favouriteList.value = favouriteTopicsRes.list;
-    } catch (error) {
-        snackbar.add({
-            type: 'error',
-            text: error?.response?._data?.errors?.[0]?.message || t('common.error')
-        });
-    }
-};
+//const updateFavourite = async () => {
+//    try {
+//        favouriteList.value = [];
+//        const favouriteRes = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
+//            credentials: 'include',
+//            server: false,
+//            params: {
+//                member_id: parseInt(authUser.value.member_id),
+//                module_type: 'topics'
+//            }
+//        });
+//
+//        const topicsIds = favouriteRes.list.map((item) => item.module_id);
+//        if (topicsIds.length === 0) {
+//            return;
+//        }
+//
+//        const favouriteTopicsRes = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/list`, {
+//            credentials: 'include',
+//            server: false,
+//            params: {
+//                cnt: perPage.value,
+//                ['id[]']: topicsIds
+//            }
+//        });
+//        favouriteList.value = favouriteTopicsRes.list;
+//    } catch (error) {
+//        snackbar.add({
+//            type: 'error',
+//            text: error?.response?._data?.errors?.[0]?.message || t('common.error')
+//        });
+//    }
+//};
 
 watch(
     () => authUser.value,
@@ -101,7 +101,7 @@ watch(
             return [];
         }
         await updateTopics();
-        await updateFavourite();
+        // await updateFavourite();
     },
     {
         deep: true,

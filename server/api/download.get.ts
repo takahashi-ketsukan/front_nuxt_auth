@@ -6,9 +6,16 @@ export default defineEventHandler(async (event) => {
     const fileUrl = `https://ucdgovtest.g.kuroco.app/direct/topics/topics_file_download/?topics_id=${topics_id}&ext_no=${ext_no}&index=${index}`;
 
     // 会員セッションCookieを転送
-    const cookie = getRequestHeader(event, 'cookie') || '';
-
-    const res = await fetch(fileUrl, { headers: { cookie }, redirect: 'follow' });
+    // ブラウザから送られたCookieをそのままKurocoに渡す
+    const cookie = getHeader(event, 'cookie');
+    console.log('cookie:', cookie);
+    const res = await fetch(fileUrl, {
+        method: 'GET',
+        headers: {
+            Cookie: cookie ?? ''
+        },
+        redirect: 'follow'
+    });
     if (!res.ok) {
         throw createError({ statusCode: res.status, statusMessage: 'File fetch failed' });
     }

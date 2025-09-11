@@ -26,7 +26,8 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                ・ <a v-if="file.url" :href="file.url" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
+                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(14, 2)"> {{ file.fileName }} </v-btn>
+                                ・ <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
                     </v-col>
@@ -73,7 +74,39 @@ const getfilename = (url) => {
     const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
     return filename;
 };
+const downloadFiles = async (topics_id, ext_no, index = 0) => {
+    const params = new URLSearchParams({
+        topics_id: String(topics_id),
+        ext_no: String(ext_no),
+        index: String(index)
+    });
 
+    const res = await fetch(`/api/download?${params.toString()}`, {
+        method: 'GET',
+        credentials: 'include' // ← Cookie を Nuxt に渡す
+    });
+
+    if (!res.ok) {
+        throw new Error('ダウンロードに失敗しました');
+    }
+
+    // blobとして読み込み、ダウンロードさせる
+    const blob = await res.blob();
+
+    // ファイル名をContent-Dispositionから抽出（なければ fallback）
+    const disposition = res.headers.get('content-disposition');
+    let filename = 'download.bin';
+    if (disposition && disposition.includes('filename=')) {
+        filename = disposition.split('filename=')[1].replaceAll('"', '');
+    }
+
+    // ブラウザ上でダウンロード
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(link.href);
+};
 try {
     const response = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/details/${route.params.slug}`, {
         credentials: 'include',
@@ -133,17 +166,17 @@ try {
 
     console.log(files);
     console.log(topicsDetail);
-    const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
-        credentials: 'include',
-        server: false,
-        params: {
-            member_id: parseInt(authUser.value.member_id),
-            module_id: parseInt(route.params.slug),
-            module_type: 'topics'
-        }
-    });
-    favoriteResponse.value = fav;
-    favoriteColor.value = favoriteResponse.value?.pageInfo?.totalCnt > 0 ? 'red' : 'grey';
+    //    const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
+    //        credentials: 'include',
+    //        server: false,
+    //        params: {
+    //            member_id: parseInt(authUser.value.member_id),
+    //            module_id: parseInt(route.params.slug),
+    //            module_type: 'topics'
+    //        }
+    //    });
+    //    favoriteResponse.value = fav;
+    //    favoriteColor.value = favoriteResponse.value?.pageInfo?.totalCnt > 0 ? 'red' : 'grey';
     loading.value = false;
 } catch (error) {
     snackbar.add({

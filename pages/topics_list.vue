@@ -56,6 +56,7 @@ const updateTopics = async () => {
         totalCnt.value = response.pageInfo.totalCnt;
         topics.value = response.list;
     } catch (error) {
+        console.log('3');
         snackbar.add({
             type: 'error',
             text: error?.response?._data?.errors?.[0]?.message || t('common.error')
@@ -70,11 +71,14 @@ onMounted(async () => {
             credentials: 'include',
             server: false
         });
-        categories.value = response.list.map((item) => ({
+        console.log('1:', response);
+
+        categories.value = (response?.list ?? []).map((item) => ({
             key: item.topics_category_id,
             value: item.category_nm
         }));
     } catch (error) {
+        console.log(error);
         snackbar.add({
             type: 'error',
             text: error?.response?._data?.errors?.[0]?.message || t('common.error')

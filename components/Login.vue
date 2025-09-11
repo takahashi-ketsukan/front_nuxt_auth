@@ -69,6 +69,7 @@ const handleLogin = async () => {
             setToken(res.grant_token); // Vuex / Composable に保存
             console.log('ログインレスポンス:', res.grant_token);
         }
+        console.log('cook1:', document.cookie);
     } catch (e) {
         error.value = e?.data?.errors || [];
         snackbar.add({

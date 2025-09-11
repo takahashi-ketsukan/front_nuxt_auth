@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
     // 会員セッションCookieを転送
     // ブラウザから送られたCookieをそのままKurocoに渡す
     const cookie = getHeader(event, 'cookie');
+    console.log('headers:', getHeaders(event));
     console.log('cookie:', cookie);
     const res = await fetch(fileUrl, {
         method: 'GET',

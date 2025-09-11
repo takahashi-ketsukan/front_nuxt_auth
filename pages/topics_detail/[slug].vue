@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(14, 2)"> {{ file.fileName }} </v-btn>
+                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(topicsDetail.topics_id, i + 2)"> {{ file.fileName }} </v-btn>
                                 ・ <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
@@ -107,6 +107,12 @@ const downloadFiles = async (topics_id, ext_no, index = 0) => {
     link.click();
     URL.revokeObjectURL(link.href);
 };
+const getAuthToken = () => {
+    const cookies = document.cookie.split(';');
+    console.log('cook:', document.cookie);
+    const tokenCookie = cookies.find((c) => c.trim().startsWith('__Host-rcms_api_access_token='));
+    return tokenCookie ? tokenCookie.split('=')[1] : null;
+};
 try {
     const response = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/details/${route.params.slug}`, {
         credentials: 'include',
@@ -114,6 +120,8 @@ try {
     });
     console.log('API response:', response);
     console.log('details:', response.details);
+    const token = getAuthToken();
+    console.log('token:', token);
     const d = response.details;
     topicsDetail.value = {
         ...d,

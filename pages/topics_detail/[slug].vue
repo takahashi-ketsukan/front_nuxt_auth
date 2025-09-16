@@ -70,9 +70,11 @@ const formatDate = (str) => {
     return `${year}年${month}月${day}日`;
 };
 const getfilename = (url) => {
-    const pathname = new URL(url).pathname;
-    const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
-    return filename;
+    if (url) {
+        const pathname = new URL(url).pathname;
+        const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
+        return filename;
+    }
 };
 const downloadFiles = async (topics_id, ext_no, index = 0) => {
     const params = new URLSearchParams({

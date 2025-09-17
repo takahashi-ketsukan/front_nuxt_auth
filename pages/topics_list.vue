@@ -43,9 +43,7 @@ const changeCategory = (item) => {
 
 const updateTopics = async () => {
     try {
-        const response = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/list`, {
-            credentials: 'include',
-            server: false,
+        const response = await useApi('/rcms-api/1/content/list', {
             params: {
                 pageID: page.value,
                 cnt: perPage.value,
@@ -67,10 +65,7 @@ const updateTopics = async () => {
 onMounted(async () => {
     category_key.value = null;
     try {
-        const response = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/category`, {
-            credentials: 'include',
-            server: false
-        });
+        const response = await useApi('/rcms-api/1/content/category');
         console.log('1:', response);
 
         categories.value = (response?.list ?? []).map((item) => ({

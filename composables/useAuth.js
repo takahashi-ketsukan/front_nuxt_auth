@@ -24,13 +24,14 @@ export const useAuth = () => {
     const userRef = useUser();
     const snackbar = useSnackbar();
     const localePath = useLocalePath();
+    const token = useCookie('access_token', { maxAge: 3600 });
+    console.log('sccess_token:', token);
 
     /** register user's information */
     const register = async (formData) => {
         const res = await $fetch(`${apiDomain.baseURL}/rcms-api/1/member/register`, {
             method: 'POST',
-            body: formData,
-            server: false
+            body: formData
         });
 
         if (res.errors.length > 0) {
@@ -51,10 +52,14 @@ export const useAuth = () => {
             body: {
                 email,
                 password
-            },
-            server: false,
-            credentials: 'include'
+            }
         });
+        const tokenRes = await $fetch(`${apiDomain.baseURL}/rcms-api/1/token`, {
+            method: 'POST',
+            body: { grant_token: res.grant_token }
+        });
+        console.log('token_res:', tokenRes);
+        token.value = tokenRes.access_token?.value;
         await profile();
         useRouter().push(localePath('/'));
 
@@ -65,8 +70,9 @@ export const useAuth = () => {
     const logout = async () => {
         await $fetch(`${apiDomain.baseURL}/rcms-api/1/logout`, {
             method: 'POST',
-            server: false,
-            credentials: 'include'
+            headers: {
+                'X-RCMS-API-ACCESS-TOKEN': token.value
+            }
         }).catch(() => {
             /** NP, to run following process */
         });
@@ -78,8 +84,9 @@ export const useAuth = () => {
     const profile = async () => {
         try {
             userRef.value = await $fetch(`${apiDomain.baseURL}/rcms-api/1/profile`, {
-                server: false,
-                credentials: 'include'
+                headers: {
+                    'X-RCMS-API-ACCESS-TOKEN': token.value
+                }
             });
         } catch {
             if (import.meta.server) {
@@ -161,39 +168,4 @@ export const useNavDrawerItems = () => {
         }
     ];
     return items;
-};
-
-export const useKurocoContent = () => {
-    const content = ref(null);
-    const error = ref(null);
-    const loading = ref(false);
-
-    const downloadFile = async (fileUrl, filename, token) => {
-        try {
-            const res = await fetch(fileUrl, {
-                headers: {
-                    'x-rcms-api-access-token': token,
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            console.log('res:', res);
-            if (!res.ok) throw new Error('Download failed');
-
-            const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } catch (err) {
-            console.error(err);
-            alert('ファイルのダウンロードに失敗しました');
-        }
-    };
-
-    return { content, error, loading, downloadFile };
 };

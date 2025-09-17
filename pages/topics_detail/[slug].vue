@@ -26,7 +26,7 @@
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.fileDownload" color="primary" @click="downloadFiles(topicsDetail.topics_id, i + 2)"> {{ file.fileName }} </v-btn>
+                                <v-btn v-if="file.fileDownload" color="primary" @click="download(file.fileDownload, file.dlName)"> {{ file.fileName }} </v-btn>
                                 ・ <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
                             </v-col>
                         </v-card>
@@ -39,7 +39,6 @@
 <script setup>
 import { useToken } from '@/composables/useToken';
 const { authUser } = useAuth();
-const { downloadFile } = useKurocoContent();
 const { t } = useI18n();
 const route = useRoute();
 const topicsDetail = ref(null);
@@ -76,54 +75,25 @@ const getfilename = (url) => {
         return filename;
     }
 };
-const downloadFiles = async (topics_id, ext_no, index = 0) => {
-    const params = new URLSearchParams({
-        topics_id: String(topics_id),
-        ext_no: String(ext_no),
-        index: String(index)
+
+const download = async (dl_link, name) => {
+    const token = useCookie('access_token');
+    console.log('dl_token:', token);
+    const res = await fetch(`/api/download?url=${encodeURIComponent(dl_link)}`, {
+        headers: { 'x-access-token': token.value }
     });
 
-    const res = await fetch(`/api/download?${params.toString()}`, {
-        method: 'GET',
-        credentials: 'include' // ← Cookie を Nuxt に渡す
-    });
-
-    if (!res.ok) {
-        throw new Error('ダウンロードに失敗しました');
-    }
-
-    // blobとして読み込み、ダウンロードさせる
     const blob = await res.blob();
-
-    // ファイル名をContent-Dispositionから抽出（なければ fallback）
-    const disposition = res.headers.get('content-disposition');
-    let filename = 'download.bin';
-    if (disposition && disposition.includes('filename=')) {
-        filename = disposition.split('filename=')[1].replaceAll('"', '');
-    }
-
-    // ブラウザ上でダウンロード
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-    URL.revokeObjectURL(link.href);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
 };
-const getAuthToken = () => {
-    const cookies = document.cookie.split(';');
-    console.log('cook:', document.cookie);
-    const tokenCookie = cookies.find((c) => c.trim().startsWith('__Host-rcms_api_access_token='));
-    return tokenCookie ? tokenCookie.split('=')[1] : null;
-};
+
 try {
-    const response = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/details/${route.params.slug}`, {
-        credentials: 'include',
-        server: false
-    });
+    const response = await useApi(`/rcms-api/1/content/details/${route.params.slug}`);
     console.log('API response:', response);
     console.log('details:', response.details);
-    const token = getAuthToken();
-    console.log('token:', token);
     const d = response.details;
     topicsDetail.value = {
         ...d,

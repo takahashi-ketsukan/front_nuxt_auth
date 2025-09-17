@@ -1,29 +1,22 @@
 export default defineEventHandler(async (event) => {
-    const { topics_id, ext_no, index = 0 } = getQuery(event);
-    if (!topics_id || !ext_no) {
-        throw createError({ statusCode: 400, statusMessage: 'Missing params' });
+    const { url } = getQuery(event);
+    const token = getHeader(event, 'x-access-token');
+    console.log('token:', token);
+    if (!url || !token) {
+        throw createError({ statusCode: 400, statusMessage: 'Missing url or token' });
     }
-    const fileUrl = `https://ucdgovtest.g.kuroco.app/direct/topics/topics_file_download/?topics_id=${topics_id}&ext_no=${ext_no}&index=${index}`;
 
-    // 会員セッションCookieを転送
-    // ブラウザから送られたCookieをそのままKurocoに渡す
-    const cookie = getHeader(event, 'cookie');
-    console.log('headers:', getHeaders(event));
-    console.log('cookie:', cookie);
-    const res = await fetch(fileUrl, {
-        method: 'GET',
-        headers: {
-            Cookie: cookie ?? ''
-        },
+    const res = await fetch(url.toString(), {
+        headers: { 'X-RCMS-API-ACCESS-TOKEN': token },
         redirect: 'follow'
     });
+
     if (!res.ok) {
-        throw createError({ statusCode: res.status, statusMessage: 'File fetch failed' });
+        throw createError({ statusCode: res.status, statusMessage: 'Failed to fetch file' });
     }
 
+    const buffer = Buffer.from(await res.arrayBuffer());
     setHeader(event, 'Content-Type', res.headers.get('content-type') || 'application/octet-stream');
     setHeader(event, 'Content-Disposition', res.headers.get('content-disposition') || 'attachment');
-
-    const buf = Buffer.from(await res.arrayBuffer());
-    return send(event, buf);
+    return buffer;
 });

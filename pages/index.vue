@@ -47,10 +47,7 @@ const sliderImages = computed(() => {
 const updateTopics = async () => {
     try {
         topicsList.value = [];
-        const { list: topics } = await $fetch(`${apiDomain.baseURL}/rcms-api/1/content/list?cnt=6`, {
-            credentials: 'include',
-            server: false
-        });
+        const { list: topics } = await useApi('/rcms-api/1/content/list?cnt=6');
         topicsList.value = topics;
     } catch (error) {
         snackbar.add({

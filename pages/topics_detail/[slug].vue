@@ -28,7 +28,7 @@
                             <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="12" lg="3">
                                 <div v-if="file.url" class="d-flex justify-space-between align-center pa-4" style="max-width: 100%">
                                     <span class="text-body-1">・ ファイル名： {{ file.dlName }} </span>
-                                    <v-btn size="small" color="primary" @click="downloadViaURL(file.url, file.dlName)">ダウンロード</v-btn>
+                                    <v-btn size="small" color="primary" @click="download(file.url, file.dlName)">ダウンロード</v-btn>
                                 </div>
                             </v-col>
                         </v-card>
@@ -56,22 +56,6 @@ const getfilename = (url, name) => {
         const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
         const match = filename.match(/(\.[^.]+)$/);
         return name ? name + match[1] : filename;
-    }
-};
-const downloadViaURL = async (url, filename) => {
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('ダウンロード失敗');
-
-        const blob = await res.blob();
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = filename || 'download';
-        a.click();
-        URL.revokeObjectURL(a.href);
-    } catch (e) {
-        console.error('❌ ダウンロードエラー:', e);
-        alert('ファイルのダウンロードに失敗しました');
     }
 };
 const download = async (dl_link, name) => {

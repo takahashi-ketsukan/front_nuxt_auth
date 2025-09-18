@@ -10,11 +10,12 @@ export default defineEventHandler(async (event) => {
         headers: { 'X-RCMS-API-ACCESS-TOKEN': token },
         redirect: 'follow'
     });
+    console.log('res1:', res);
 
     if (!res.ok) {
         throw createError({ statusCode: res.status, statusMessage: 'Failed to fetch file' });
     }
-
+    console.log('res2:', res);
     const buffer = Buffer.from(await res.arrayBuffer());
     setHeader(event, 'Content-Type', res.headers.get('content-type') || 'application/octet-stream');
     setHeader(event, 'Content-Disposition', res.headers.get('content-disposition') || 'attachment');

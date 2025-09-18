@@ -25,9 +25,11 @@
                             </div>
 
                             <h2 class="text-h6 font-weight-medium mb-2">添付ファイル：</h2>
-                            <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="4" lg="3">
-                                <v-btn v-if="file.fileDownload" color="primary" @click="download(file.fileDownload, file.dlName)"> {{ file.fileName }} </v-btn>
-                                ・ <a v-if="file.fileDownload" :href="file.fileDownload" :download="file.dlName" target="_blank" class="file-card">{{ file.fileName }}</a>
+                            <v-col v-for="(file, index) in files" :key="index" cols="12" sm="6" md="12" lg="3">
+                                <div v-if="file.url" class="d-flex justify-space-between align-center pa-4" style="max-width: 100%">
+                                    <span class="text-body-1">・ ファイル名： {{ file.dlName }} </span>
+                                    <v-btn size="small" color="primary" @click="download(file.url, file.dlName)">ダウンロード</v-btn>
+                                </div>
                             </v-col>
                         </v-card>
                     </v-col>
@@ -37,48 +39,29 @@
     </div>
 </template>
 <script setup>
-import { useToken } from '@/composables/useToken';
-const { authUser } = useAuth();
 const { t } = useI18n();
 const route = useRoute();
 const topicsDetail = ref(null);
 const files = ref(null);
 const loading = ref(true);
-const favoriteResponse = ref(null);
-const favoriteColor = ref('grey');
 const snackbar = useSnackbar();
-const localePath = useLocalePath();
-const { accessToken, loadToken } = useToken();
-
-loadToken();
-console.log('accessToken:', accessToken.value);
-
-const items = computed(() => {
-    const { texts, positionPatterns, imageUrls, subtitles } = topicsDetail.value;
-
-    return positionPatterns.map(({ key }, i) => ({
-        text: texts[i] || '',
-        positionPatternKey: key,
-        imageUrl: imageUrls?.[i]?.url ? `${imageUrls?.[i]?.url}?width=800` : null,
-        subtitle: subtitles[i] || ''
-    }));
-});
 
 const formatDate = (str) => {
     const [year, month, day] = str.slice(0, 10).split('-');
     return `${year}年${month}月${day}日`;
 };
-const getfilename = (url) => {
+const getfilename = (url, name) => {
     if (url) {
         const pathname = new URL(url).pathname;
         const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
-        return filename;
+        const match = filename.match(/(\.[^.]+)$/);
+        return name ? name + match[1] : filename;
     }
 };
 
 const download = async (dl_link, name) => {
     const token = useCookie('access_token');
-    console.log('dl_token:', token);
+    console.log('dl_token:', token.value);
     const res = await fetch(`/api/download?url=${encodeURIComponent(dl_link)}`, {
         headers: { 'x-access-token': token.value }
     });
@@ -116,47 +99,35 @@ try {
             url: d?.ext_2?.url,
             fileDownload: d?.ext_2?.dl_link,
             fileName: d?.ext_2?.desc,
-            dlName: getfilename(d?.ext_2?.url)
+            dlName: getfilename(d?.ext_2?.url, d?.ext_2?.desc)
         },
         file2: {
             url: d?.ext_3?.url,
             fileDownload: d?.ext_3?.dl_link,
             fileName: d?.ext_3?.desc,
-            dlName: getfilename(d?.ext_3?.url)
+            dlName: getfilename(d?.ext_3?.url, d?.ext_3?.desc)
         },
         file3: {
             url: d?.ext_4?.url,
             fileDownload: d?.ext_4?.dl_link,
             fileName: d?.ext_4?.desc,
-            dlName: getfilename(d?.ext_4?.url)
+            dlName: getfilename(d?.ext_4?.url, d?.ext_4?.desc)
         },
         file4: {
             url: d?.ext_5?.url,
             fileDownload: d?.ext_5?.dl_link,
             fileName: d?.ext_5?.desc,
-            dlName: getfilename(d?.ext_5?.url)
+            dlName: getfilename(d?.ext_5?.url, d?.ext_5?.desc)
         },
         file5: {
             url: d?.ext_6?.url,
             fileDownload: d?.ext_6?.dl_link,
             fileName: d?.ext_6?.desc,
-            dlName: getfilename(d?.ext_6?.url)
+            dlName: getfilename(d?.ext_6?.url, d?.ext_6?.desc)
         }
     };
 
-    console.log(files);
-    console.log(topicsDetail);
-    //    const fav = await $fetch(`${apiDomain.baseURL}/rcms-api/1/favorite/list`, {
-    //        credentials: 'include',
-    //        server: false,
-    //        params: {
-    //            member_id: parseInt(authUser.value.member_id),
-    //            module_id: parseInt(route.params.slug),
-    //            module_type: 'topics'
-    //        }
-    //    });
-    //    favoriteResponse.value = fav;
-    //    favoriteColor.value = favoriteResponse.value?.pageInfo?.totalCnt > 0 ? 'red' : 'grey';
+    console.log('file.value:', files);
     loading.value = false;
 } catch (error) {
     snackbar.add({
